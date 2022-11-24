@@ -32,7 +32,7 @@ class Flights
 
     public:
     
-    Flights(){};  /*! Constructor */
+    Flights(){};  /*! Constructor for Flights class */
         
         /**
          * Define setters for flight structure
@@ -219,7 +219,7 @@ class Bookings
     public:
 
 
-    Bookings(){};  /*! Constructor */
+    Bookings(){};  /*! Constructor for Bookings class */
 
       /**
          * Define setters for bookinngs structure
