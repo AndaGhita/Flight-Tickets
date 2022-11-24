@@ -9,33 +9,40 @@
 
 using namespace std;
 
+/*! Flight class */
+
 class Flights
 {
     private: 
-       int flight_number;
-       string departure;
-       string destination;
-       string date;
-       string time;
-       int fseats;
-       int f_seats;
-       int bseats;
-       int b_seats;
-       int eseats;
-       int e_seats;
-       int select_Eseats;
-       int select_Bseats;
-       int select_Fseats;
+       /*!flight data-file structure*/
+       int flight_number; /**< an integer for number of flights*/
+       string departure;  /**< a string for flights deparatures*/
+       string destination; /**< a string for flights destinations */
+       string date; /**< a string for date of flights*/
+       string time; /**<a string for time of flights*/
+       int fseats; /**< an integer for the maxim number of first class seats*/
+       int f_seats; /**< an integer for first class seats */
+       int bseats; /**< an integer for the maxim number of business class seats*/
+       int b_seats;  /**< an integer for business class seats */
+       int eseats; /**< an integer for the maxim number of economy class seats*/
+       int e_seats;  /**< an integer for economy class seats */
+       int select_Eseats;  /**< an integer for allocated economy class seats */
+       int select_Bseats;  /**< an integer for allocated business class seats */
+       int select_Fseats;   /**< an integer for allocated first class seats */
 
     public:
     
-    Flights(){};
-
+    Flights(){};  /*! Constructor */
+        
+        /**
+         * Define setters for flight structure
+         * */
         void setflight_number(int flight_number)
         {
             this->flight_number = flight_number; 
 
         }
+        
         void setdeparture(string departure)
         {
             this->departure = departure;
@@ -108,23 +115,30 @@ class Flights
     
         };
   
-
+        /**
+         * Define getters for flight structure
+         * */
+         
         int getFlightNumber()
         {
             return flight_number;
         }
+        
         string getDeparture()
         {
             return departure;
         }
+        
         string getDestination()
         {
             return destination;
         }
+       
         string getDate()
         {
             return date;
         }
+        
         string getTime()
         {
             return time;
@@ -184,21 +198,32 @@ class Flights
             return (this->select_Eseats + this->select_Bseats + this->select_Fseats);
         }
 };
-     
+
+/*! Booking class */   
+
 class Bookings
 {
     private:
-    int booking_number;
-    string date;
-    string time;
-    string departure;
-    string destination;
-    string seatclass;
-    string firstName;
-    string lastName;
+
+    /*! booking data-file structure*/
+
+    int booking_number; /**< an integer for number of bookings*/
+    string date;  /**< a string for date of bookings*/
+    string time; /**< a string for tame of bookings*/
+    string departure; /**< a string for departure of bookings*/
+    string destination; /**< a string for destination of bookings*/
+    string seatclass; /**< a string for class of the seat*/
+    string firstName; /**< a string for First Name from bookings*/
+    string lastName; /**< a string for Last Name from bookings*/
 
     public:
-    Bookings(){};
+
+
+    Bookings(){};  /*! Constructor */
+
+      /**
+         * Define setters for bookinngs structure
+         * */
 
     void setbooking_number(int booking_number)
     {
@@ -232,9 +257,11 @@ class Bookings
     {
         this->lastName = lastName;
     }
-
-
-
+    
+      /**
+       * Define getters for booking structure
+       * */
+         
     int getNumber()
     {
         return this->booking_number;
@@ -271,57 +298,88 @@ class Bookings
 
 };
 
+/**< Create a class for att store informations from flights file*/
+
 class FlighInformations
 {
     list<Flights *>flightsList;
    
     public:
-    FlighInformations(){};
+    
+    FlighInformations(){}; /*! Constructor */
+
+    /**< Declare getter for flights list*/
+
+    list<Flights *>getFlightList()
+    {
+        return this->flightsList;
+    }
+
     void readFlightInformations(string file)
     {
-        ifstream flightInformations(file);
+        /**< Open file to read from it */
+        ifstream flightInformations(file); 
         string storeFlights;
 
         if(flightInformations.is_open())
         {
+            /**< Get line from file to string */
             while(getline(flightInformations, storeFlights) && !flightInformations.eof())
             {
                 cout << storeFlights << endl;
+                /**< Stringstream string*/
                 stringstream myFlightInformations(storeFlights);
+                /**< Declare store string and a new object*/
                 string store;
                 Flights *f = new Flights;
+                getline(myFlightInformations, store, ',');
                 int flightStore = atoi(store.c_str());
-                getline(flightInformations, store, ',');
-                f->setflight_number(atoi(store.c_str()));
+                /**< Call method */ 
+                f->setflight_number(flightStore);
 
-                getline(flightInformations, store, ',');
+                getline(myFlightInformations, store, ',');
                 f->setdeparture(store);
 
-                getline(flightInformations, store , ',');
+                getline(myFlightInformations, store , ',');
                 f->setdestination(store);
 
-                getline(flightInformations, store , ',');
+                getline(myFlightInformations, store , ',');
                 f->setdate(store);
 
-                getline(flightInformations, store , ',');
+                getline(myFlightInformations, store , ',');
                 f->settime(store);
 
-                getline(flightInformations, store, ',');
+                getline(myFlightInformations, store, ',');
                 flightStore = atoi(store.c_str());
                 f->setfseats(flightStore);
 
-                getline(flightInformations, store, ',');
+                getline(myFlightInformations, store, ',');
                 flightStore = atoi(store.c_str());
                 f->setbseats(flightStore);
 
-                getline(flightInformations, store , ',');
+                getline(myFlightInformations, store , ',');
                 flightStore = atoi(store.c_str());
                 f->seteseats(flightStore);
 
+                getline(myFlightInformations, store, ',');
+                flightStore = atoi (store.c_str());
+                f->setSelectESeats(flightStore);
+
+                getline(myFlightInformations, store, ',');
+                flightStore = atoi(store.c_str());
+                f->setSelectBseats(flightStore);
+
+                getline(myFlightInformations, store , ',' );
+                flightStore = atoi(store.c_str());
+                f->setSelectFseats(flightStore);
+
+                f->setCurrentSeats();
+                
+                /**< Add to list*/ 
                 flightsList.push_back(f);
 
             }
-
+            /**< Close file*/
             flightInformations.close();
             
         }
@@ -332,12 +390,10 @@ class FlighInformations
         }
     }
 
-     list<Flights *> getFlightList()
-     {
-        return flightsList;
-     }
+     
 };
 
+/**< Create a class for att store informations from bookings file*/
 
 class BookingsInformations
 {
@@ -345,34 +401,44 @@ class BookingsInformations
     list<Bookings *>bookingsList;
 
     public:
+
+     /**< Declare getter for bookings list*/
+     list<Bookings *>getBookingList()
+    {
+        return this->bookingsList;
+    }
     void readBookingsInformations(string myfile)
     {
+        /**< Open file to read from */
         ifstream bookingInformations(myfile);
         string storeBookings;
 
         if(bookingInformations.is_open())
         {
-            while(getline(bookingInformations, storeBookings) && storeBookings.empty())
+            /**< Get line from file to string */
+           
+            while(getline(bookingInformations, storeBookings) && !storeBookings.empty())
             {
                 cout << storeBookings << endl;
                 stringstream bookingInformations(storeBookings);
                 string store;
                 Bookings *b = new Bookings;
                 int bookingStore = atoi(store.c_str());
+                /**< Call method*/ 
                 getline(bookingInformations, store, ',');
                 b->setbooking_number(atoi(store.c_str()));
                 
                 getline(bookingInformations, store, ',');
-                b->setdeparture(store);
-
-                getline(bookingInformations, store , ',');
-                b->setdestination(store);
-
-                getline(bookingInformations, store , ',');
                 b->setdate(store);
 
                 getline(bookingInformations, store , ',');
                 b->settime(store);
+
+                getline(bookingInformations, store , ',');
+                b->setdeparture(store);
+
+                getline(bookingInformations, store , ',');
+                b->setdestination(store);
 
                 getline(bookingInformations, store , ',');
                 b->setSeatClass(store);
@@ -382,36 +448,103 @@ class BookingsInformations
 
                 getline(bookingInformations, store);
                 b->setLastName(store);
-
+   
+                /**< Add to list*/ 
                 bookingsList.push_back(b);
 
                 
             }
 
+            /**< Close the file*/
             bookingInformations.close();
         }
+        else{
+            std::cerr << "The file it's unable to open" << std::endl;
+        }
     }
-    list<Bookings *> getBookingList()
-    {
-        return bookingsList;
-    }
+   
 
 };
 
+/**< Make a function for att allocate the seat */
+
+void allocateSeat(list<Flights *> fList)
+{
+    list<Flights *>::iterator it;
+
+    ofstream seating("ticket.txt");
+    for(it = fList.begin(); it !=fList.end(); it++)
+    {
+        int row = 0;
+        int seat = 0;
+        Flights *f = *it;
+
+        seating << "Flight" << f->getFlightNumber() << "Departure" << f->getDeparture() << "Destination" << f-> getDestination() << "Date" <<f->getDate() << "Time" <<f->getTime() <<  "\n";
+        seating << "first class";
+
+        for(seat = 0 ; seat <= f->getfSeat(); seat++)
+        {
+            if(seat > (f->getTotalSeats() * row))
+            {
+                row++;
+                seating << "\n";
+            }
+        }
+
+        seating << "business class";
+
+        for(seat = f->getfSeat() + 1 ; seat <= f->getfSeat() ; seat++)
+        {
+            if(seat > (f->getTotalSeats() * row))
+            {
+                 row++;
+                seating << "\n";
+
+            }
+        }
+
+        seating << "economy class";
+
+        for(seat = f->getfSeat() + f->getbSeat() +1 ; seat <= f->getfSeat() + f->getbSeat() + f->geteSeat(); seat++)
+        {
+            if (seat > (f->getTotalSeats() * row))
+            {
+                row++;
+                seating << "\n";
+               
+            }
+    }
+
+    seating.close();
+    }
+};
+
+
+/**< Make a function for create the tickets*/
+
 void  createTickets (list<Flights *>flightsList , list<Bookings *>bookingsList)
 {
+        /**<Declare iterators */
         list<Bookings *>::iterator it_bookings;
         list<Flights *>::iterator it_flights;
        
+    
+       /**< Loop though both lists */ 
         for(it_bookings = bookingsList.begin(); it_bookings != bookingsList.end(); it_bookings++)
         {
+           
             for(it_flights = flightsList.begin(); it_flights != flightsList.end(); it_flights++)
             {
+                
                Flights *flight = *it_flights;
                Bookings *booking = *it_bookings;
+              
 
-               if(booking->getDate() == flight->getDate() && booking->getTime() == flight->getTime() && booking->getDeparture() == flight->getDeparture() && booking->getDestination() == flight-> getDestination())
+               /**< Check if conditions  matching*/ 
+    
+               if(flight->getDate() == booking->getDate() && flight->getTime() == booking->getTime() && flight->getDeparture() == booking->getDeparture() && flight->getDestination() == booking-> getDestination())
                {
+               
                 char ticket_name[20];
                 snprintf(ticket_name, sizeof(ticket_name), "ticket-%d.txt", booking->getNumber());
 
@@ -443,14 +576,17 @@ void  createTickets (list<Flights *>flightsList , list<Bookings *>bookingsList)
 
                 if (ticketFile.is_open())
                 {
+
+                    /**< Write info into ticket */
                    
-                    ticketFile << "BOOKING: " << booking->getNumber() << "\nFLIGHT: " << flight->getFlightNumber() << " DEPARTURE: " << booking->getDeparture() << " DESTINATION: " << booking->getDestination() << " " << booking->getDate() << " " << booking->getTime() << "\nPASSENGER: " << booking->getFisrtName() << " " << booking->getLastName() << "\nCLASS: " << booking->getSeatClass() << "\nROW: " << rows << " SEAT: " << seat;
+                    ticketFile << "BOOKING: " << booking->getNumber() << "\nFLIGHT: " << flight->getFlightNumber() << " \nDEPARTURE: " << booking->getDeparture() << " \nDESTINATION: " << booking->getDestination() << " " << booking->getDate() << " " << booking->getTime() << "\nPASSENGER: " << booking->getFisrtName() << " " << booking->getLastName() << "\nCLASS: " << booking->getSeatClass() << "\nROW: " << rows << " SEAT: " << seat;
                 }
                 else
                 {
                     std::cerr << "Unable to open file" << std::endl;
                 }
-               
+                
+                /**< Close file */
                 ticketFile.close();
                }
             }
@@ -458,18 +594,6 @@ void  createTickets (list<Flights *>flightsList , list<Bookings *>bookingsList)
 
 };
 
-void allocateSeat(list<Flights *> fList)
-{
-    list<Flights *>::iterator it;
-
-    ofstream seat("ticket.txt");
-    for(it = fList.begin(); it !=fList.end(); it++)
-    {
-        int row = 0;
-        int seat = 0;
-
-    }
-};
 
 
 
@@ -483,10 +607,9 @@ int main(int argc , char **argv)
     BookingsInformations myBookings;
     myBookings.readBookingsInformations("bookings.csv");
 
-    list<Flights *> flightList;
-    list<Bookings *> bookingList;
 
-    createTickets(flightList, bookingList);
+    createTickets(myFlights.getFlightList(), myBookings.getBookingList());
+   
 
 
    
