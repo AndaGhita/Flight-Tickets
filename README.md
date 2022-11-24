@@ -1,10 +1,8 @@
 # Flight-Tickets
 
-ticket
+Ticket program
 
 Final assignment C/C++ 2022
-
-cket for each booking.
 
 Example running the program:
 
