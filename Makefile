@@ -1,4 +1,3 @@
-target:
-	echo "Running target"
-	cc sample.c -o sample
-	./sample
+Ticket:
+       g++ flights.csv bookings.csv Tickets.cpp -o Tickets
+	
